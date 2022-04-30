@@ -1,0 +1,24 @@
+#
+# Deploy with "maid deploy production"
+# maid redeploy production
+# maid rollback production
+#
+name: maid-app
+project: laravel-with-maid
+environments:
+  production:
+    git:
+      repo: https://github.com/ghostzero/laravel-with-maid
+      branch: main
+    image: own3d/laravel-docker:8.1-octane-minimal
+    storage: maid-bucket
+    memory: 256
+    database: maid-db
+    cache: maid-cache
+    queues:
+      - emails
+      - invoices
+    build:
+      - composer install
+    deploy:
+      - php artisan migrate --force
